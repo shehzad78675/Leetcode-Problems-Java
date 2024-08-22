@@ -35,8 +35,7 @@ class Solution {
                     q.add(node.right);
                 }
             }
-            double avg = sum/size;
-            result.add(avg);
+            result.add(sum/size);
         }
         return result;
     }
