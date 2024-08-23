@@ -41,7 +41,7 @@ class Solution {
         int rh = rightHeight(root);
 
         if(lh == rh){
-            return ((int) Math.pow(2, lh)) - 1;
+            return (1<<lh) - 1;
         }else{
             return countNodes(root.left) + countNodes(root.right) + 1;
         }
