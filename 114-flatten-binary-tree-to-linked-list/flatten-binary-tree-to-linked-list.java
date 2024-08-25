@@ -20,11 +20,22 @@ class Solution {
             return;
         }
 
-        flatten(root.right);
-        flatten(root.left);
+        Stack<TreeNode> st = new Stack<>();
+        st.push(root);
 
-        root.right = prev;
-        root.left = null;
-        prev = root;
+        while(!st.empty()){
+            TreeNode node = st.pop();
+            if(node.right != null){
+                st.push(node.right);
+            }
+            if(node.left != null){
+                st.push(node.left);
+            }
+
+            if(!st.empty()){
+                node.right = st.peek();
+            }
+            node.left = null;
+        }
     }
 }
