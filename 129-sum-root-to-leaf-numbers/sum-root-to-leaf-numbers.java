@@ -14,25 +14,23 @@
  * }
  */
 class Solution {
-    public int getSum(TreeNode root, int[] res){
+    public int getSum(TreeNode root, int res){
         if(root == null){
             return 0;
         }
-        if(root.left == null && root.right == null){
-            return (res[0]*10) + root.val;
-        }
 
-        
-        res[0] = (res[0]*10) + root.val;
+        res = (res*10) + root.val;
+
+        if(root.left == null && root.right == null){
+            return res;
+        }
 
         int left = getSum(root.left, res);
         int right = getSum(root.right, res);
 
-        res[0] = res[0]/10;
-
         return left + right;
     }
     public int sumNumbers(TreeNode root) {
-        return getSum(root, new int[]{0});
+        return getSum(root, 0);
     }
 }
