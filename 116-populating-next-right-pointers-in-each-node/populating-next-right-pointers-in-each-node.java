@@ -29,14 +29,14 @@ class Solution {
 
         Queue<Node> q = new LinkedList<>();
         q.add(root);
-        while(!q.isEmpty()){
+        q.add(null);
+        while(q.size() > 1){
             int size = q.size();
-            Node prev = q.peek();
             for(int i=0; i < size; i++){
                 Node node = q.remove();
-                if(i != 0){
-                    prev.next = node;
-                    prev = node;
+                if(node == null){
+                    q.add(null);
+                    continue;
                 }
                 if(node.left != null){
                     q.add(node.left);
@@ -44,8 +44,9 @@ class Solution {
                 if(node.right != null){
                     q.add(node.right);
                 }
+
+                node.next = q.peek();
             }
-            prev.next = null;
         }
         return root;
     }
