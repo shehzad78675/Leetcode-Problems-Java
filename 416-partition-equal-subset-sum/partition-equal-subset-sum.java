@@ -1,30 +1,26 @@
 class Solution {
-    public boolean subsetSum(int i, int[] nums, int target, int[][] dp){
-        if(target == 0){
-            return true;
+    public boolean subsetSum(int[] nums, int k){
+        int n = nums.length;
+        boolean[][] dp = new boolean[n][k+1];
+
+        for(int i=0; i<n; i++){
+            dp[i][0] = true;
         }
 
-        if(i == 0){
-            return target == nums[0];
+        if(nums[0] <= k){
+            dp[0][nums[0]] = true;
         }
 
-        if(dp[i][target] != -1){
-            return dp[i][target] == 1;
-        }
+        for(int i=1; i<n; i++){
+            for(int target=1; target<=k; target++){
+                boolean notPick = dp[i-1][target];
+                boolean pick = false;
+                if(nums[i] <= target) pick = dp[i-1][target-nums[i]];
 
-        boolean notPick = subsetSum(i-1, nums, target, dp);
-        boolean pick = false;
-        if(nums[i] <= target){
-            pick = subsetSum(i-1, nums, target-nums[i], dp);
+                dp[i][target] = pick || notPick;
+            }
         }
-
-        if(pick || notPick){
-            dp[i][target] = 1;
-            return true;
-        }else{
-            dp[i][target] = 0;
-            return false;
-        }
+        return dp[n-1][k];
     }
     public boolean canPartition(int[] nums) {
         int n = nums.length;
@@ -35,12 +31,7 @@ class Solution {
         if(sum%2 == 1){
             return false;
         }
-
-        int[][] dp = new int[n][(sum/2)+1];
-        for(int i=0; i<n; i++){
-            Arrays.fill(dp[i], -1);
-        }
         
-        return subsetSum(n-1, nums, sum/2, dp);
+        return subsetSum(nums, sum/2);
     }
 }
