@@ -1,21 +1,4 @@
 class Solution {
-    public int solve(int ind, int[] nums, int k, int[][] dp){
-        if(ind == 0){
-            if(k == 0 && nums[0] == k) return 2;
-            if(k == 0 || nums[0] == k) return 1;
-            return 0;
-        }
-
-        if(dp[ind][k] != -1){
-            return dp[ind][k];
-        }
-
-        int notTake = solve(ind-1, nums, k, dp);
-        int take = 0;
-        if(nums[ind] <= k) take = solve(ind-1, nums, k-nums[ind], dp);
-
-        return dp[ind][k] = take + notTake;
-    }
     public int findTargetSumWays(int[] nums, int target) {
         int totalSum = 0;
         int n = nums.length;
@@ -30,9 +13,20 @@ class Solution {
 
         int k = (totalSum-target)/2;
         int[][] dp = new int[n][k+1];
-        for(int i=0; i<n; i++){
-            Arrays.fill(dp[i], -1);
+
+        if(nums[0] == 0) dp[0][0] = 2;
+        else dp[0][0] = 1;
+
+        if(nums[0] != 0 && nums[0] <= k) dp[0][nums[0]] = 1;
+        for(int i=1; i<n; i++){
+            for(int tar=0; tar<=k; tar++){
+                int notTake = dp[i-1][tar];
+                int take = 0;
+                if(nums[i] <= tar) take = dp[i-1][tar-nums[i]];
+
+                dp[i][tar] = take + notTake;
+            }
         }
-        return solve(n-1, nums, k, dp);
+        return dp[n-1][k];
     }
 }
