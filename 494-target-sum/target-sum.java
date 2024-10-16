@@ -12,21 +12,23 @@ class Solution {
         }
 
         int k = (totalSum-target)/2;
-        int[][] dp = new int[n][k+1];
+        int[] dp = new int[k+1];
 
-        if(nums[0] == 0) dp[0][0] = 2;
-        else dp[0][0] = 1;
+        if(nums[0] == 0) dp[0] = 2;
+        else dp[0] = 1;
 
-        if(nums[0] != 0 && nums[0] <= k) dp[0][nums[0]] = 1;
+        if(nums[0] != 0 && nums[0] <= k) dp[nums[0]] = 1;
         for(int i=1; i<n; i++){
+            int[] temp = new int[k+1];
             for(int tar=0; tar<=k; tar++){
-                int notTake = dp[i-1][tar];
+                int notTake = dp[tar];
                 int take = 0;
-                if(nums[i] <= tar) take = dp[i-1][tar-nums[i]];
+                if(nums[i] <= tar) take = dp[tar-nums[i]];
 
-                dp[i][tar] = take + notTake;
+                temp[tar] = take + notTake;
             }
+            dp = temp;
         }
-        return dp[n-1][k];
+        return dp[k];
     }
 }
