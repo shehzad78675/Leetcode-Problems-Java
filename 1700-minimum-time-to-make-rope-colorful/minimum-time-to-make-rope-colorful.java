@@ -1,7 +1,6 @@
 class Solution {
     public int minCost(String colors, int[] neededTime) {
         int minTime = 0;
-        Stack<Integer> st = new Stack<>();
         for(int i=1; i<neededTime.length; i++){
             if(colors.charAt(i) == colors.charAt(i-1)){
                 int currMinTime = Math.min(neededTime[i], neededTime[i-1]);
